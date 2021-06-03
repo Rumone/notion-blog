@@ -9,7 +9,7 @@
 - Typescript
 - Notion Js SDK
 
-Click here for project [CHANGELOG 🛠️](CHANGELOG.md).
+Click here for project [CHANGELOG 🛠️](CHANGELOG.md). <br>
 Click here for project [CONTRIBUTIONS 🌎](CONTRIBUTION.md)
 
 
