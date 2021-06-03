@@ -9,3 +9,4 @@ This is the changelog for the ThinkTech application
 - Added initial implemenation of GraphQL and notionsdk.
 - Added project readme.
 - Added Changelog file.
+- Added Contribution file
