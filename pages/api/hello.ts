@@ -1,5 +1,7 @@
-// Next.js API route support: https://nextjs.org/docs/api-routes/introduction
+import { getDatabasePages } from "../../utils/notion"
 
-export default (req, res) => {
-  res.status(200).json({ name: 'John Doe' })
+export default async (req, res) => {
+  const pages = await getDatabasePages();
+
+  res.status(200).json(pages)
 }
