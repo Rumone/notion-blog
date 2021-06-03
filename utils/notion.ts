@@ -1,6 +1,6 @@
 import { config } from "dotenv"
 import { Client } from "@notionhq/client";
-import { BlocksChildrenListResponse, DatabasesQueryResponse } from "@notionhq/client/build/src/api-endpoints";
+import { DatabasesQueryResponse } from "@notionhq/client/build/src/api-endpoints";
 import { CustomPage, PropertyType } from "./types";
 import { Page } from "@notionhq/client/build/src/api-types";
 
@@ -8,7 +8,7 @@ const notion = new Client({ auth: process.env.NOTION_KEY })
 const db_id = process.env.NOTION_DATABASE_ID
 
 config()
-// TODO: fix types issue here
+// TODO: Function type is not explicitly written
 export const getDatabasePages = async () => {
     try {
         const record_list: DatabasesQueryResponse = await notion.databases.query({
