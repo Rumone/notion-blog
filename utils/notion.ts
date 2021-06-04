@@ -1,14 +1,14 @@
 import { config } from "dotenv"
 import { Client } from "@notionhq/client";
-import { DatabasesQueryResponse } from "@notionhq/client/build/src/api-endpoints";
-import { CustomPage, PropertyType } from "./types";
+import { BlocksChildrenListResponse, DatabasesQueryResponse } from "@notionhq/client/build/src/api-endpoints";
+import { CustomPage, PropertyType, CustomBlock } from "./types";
 import { Page } from "@notionhq/client/build/src/api-types";
 
 const notion = new Client({ auth: process.env.NOTION_KEY })
 const db_id = process.env.NOTION_DATABASE_ID
 
 config()
-// TODO: Function type is not explicitly written
+// REVIEW: Function return type type is not explicitly written
 export const getDatabasePages = async () => {
     try {
         const record_list: DatabasesQueryResponse = await notion.databases.query({
@@ -28,5 +28,30 @@ export const getDatabasePages = async () => {
 
     } catch (error) {
         return null;
+    }
+}
+
+
+export const getSinglePage = async (id: string) => {
+    try {
+        const pageBlock: BlocksChildrenListResponse = await notion.blocks.children.list({
+            block_id: id,
+        })
+
+        const customPageElement: CustomBlock[] = pageBlock.results.map(block => {
+            if (block.type !== PropertyType.unsupported) {
+                return {
+                    elementType: block['type'],
+                    content: block[block['type']].text[0]
+                }
+            }
+        })
+
+        console.log(customPageElement)
+
+        return "test complete"
+    } catch (e) {
+        throw new Error();
+        return null
     }
 }

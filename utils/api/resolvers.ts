@@ -1,19 +1,12 @@
-import { getDatabasePages } from "../notion";
-
-const tempDb = {
-    firstname: "josh",
-    lastname: "brown",
-    email: "joshbrown@gmail.com"
-}
-
-
-const tempResolve = (param: string) => tempDb[param];
-
+import { getDatabasePages, getSinglePage } from "../notion";
 
 export const resolvers = {
     Query: {
         articles: async (parent, args, context) => {
             return await getDatabasePages()
+        },
+        findPage: async (parent, { data }, context) => {
+            return await getSinglePage(data.id);
         }
     },
 }
