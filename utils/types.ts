@@ -12,6 +12,18 @@ export type CustomBlock = {
     content: any
 }
 
+export enum BlockType {
+    paragraph = "paragraph",
+    heading_1 = "heading_1",
+    heading_2 = "heading_2",
+    heading_3 = "heading_3",
+    bulleted_list_item = "bulleted_list_item",
+    numbered_list_item = "numbered_list_item",
+    to_do = "to_do",
+    toggle = "toggle",
+    child_page = "child_page"
+}
+
 export enum PropertyType {
     richText = "rich_text",
     createdTime = "created_time",

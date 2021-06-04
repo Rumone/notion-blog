@@ -2,7 +2,8 @@ import { config } from "dotenv"
 import { Client } from "@notionhq/client";
 import { BlocksChildrenListResponse, DatabasesQueryResponse } from "@notionhq/client/build/src/api-endpoints";
 import { CustomPage, PropertyType, CustomBlock } from "./types";
-import { Page } from "@notionhq/client/build/src/api-types";
+import { Page, RichText } from "@notionhq/client/build/src/api-types";
+import { textToMarkdownConverter } from "./helper/markdownCreator";
 
 const notion = new Client({ auth: process.env.NOTION_KEY })
 const db_id = process.env.NOTION_DATABASE_ID
@@ -34,22 +35,21 @@ export const getDatabasePages = async () => {
 
 export const getSinglePage = async (id: string) => {
     try {
-        const pageBlock: BlocksChildrenListResponse = await notion.blocks.children.list({
+        const pageBlockElements: BlocksChildrenListResponse = await notion.blocks.children.list({
             block_id: id,
         })
 
-        const customPageElement: CustomBlock[] = pageBlock.results.map(block => {
+        const markdownOutput: string[] = pageBlockElements.results.map(block => {
             if (block.type !== PropertyType.unsupported) {
-                return {
-                    elementType: block['type'],
-                    content: block[block['type']].text[0]
-                }
+                const type = block.type;
+                const contentArray: RichText[] = block[block.type].text;
+
+                return textToMarkdownConverter(type, contentArray);
             }
+            return ""
         })
 
-        console.log(customPageElement)
-
-        return "test complete"
+        return markdownOutput.filter(p => p !== "");
     } catch (e) {
         throw new Error();
         return null
